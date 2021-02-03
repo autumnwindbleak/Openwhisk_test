@@ -3,20 +3,34 @@ from MySQLdb import _mysql
 
 
 def main(dict):
-    company = dict["company"]
-    name = dict["name"]
-    telephone = dict["telephone"]
-    email = dict["email"]
-    detail = dict["detail"]
-    if telephone is None or email is None:
+    if 'company' in dict:
+        company = dict["company"]
+    else:
+        company = ""
+    if 'name' in dict:
+        name = dict["name"]
+    else:
+        name = ""
+    if 'telephone' in dict:
+        telephone = dict["telephone"]
+    else:
+        telephone = ""
+    if 'email' in dict:
+        email = dict["email"]
+    else:
+        email = ""
+    if 'detail' in dict:
+        detail = dict["detail"]
+    else:
+        detail = ""
+    if telephone == "" or email == "":
         return {"Error Code": "404 contact method not found"}
     else:
         command = "insert into consulting_info (company,name,telephone,email,detail) " \
                   "values ('%s','%s','%s','%s','%s')" % (company, name, telephone, email, detail)
         # result = mysql_command_execute(command)
-
-        return {"result": command}
-
+        # return result
+        return {"sql command is ": command}
 
 def mysql_command_execute(command):
     db = _mysql.connect(
@@ -31,4 +45,3 @@ def mysql_command_execute(command):
         return r.fetch_row(maxrows=0, how=1)
     else:
         return {"Response Code": "1 succeed!"}
-
